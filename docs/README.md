@@ -1,6 +1,6 @@
-# 🎬 Movie Database Application
+# 🎬 Movie Database Application (Two-Tier Architecture)
 
-A beautiful and modern movie database application with a sleek glassmorphism UI design.
+A beautiful and modern movie database application with a sleek glassmorphism UI design, built with a two-tier architecture using MySQL database and organized file structure.
 
 ## ✨ Features
 
@@ -14,30 +14,60 @@ A beautiful and modern movie database application with a sleek glassmorphism UI 
 
 - **Frontend**: Vanilla HTML/CSS/JavaScript with modern design
 - **Backend**: Node.js with Express
-- **Database**: SQLite with Prisma ORM
+- **Database**: MySQL with Prisma ORM
 - **UI Design**: Glassmorphism with gradient backgrounds and animations
+- **Architecture**: Two-tier (Application + Database)
+- **File Structure**: Organized with separation of concerns
 
 ## 🚀 Getting Started
 
-### Development
+### Prerequisites
+- Node.js (v16 or higher)
+- MySQL Server (v8.0 or higher)
+
+### MySQL Installation
+**macOS (using Homebrew):**
+```bash
+brew install mysql
+brew services start mysql
+```
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update
+sudo apt install mysql-server
+sudo systemctl start mysql
+```
+
+**Windows:**
+Download and install from [MySQL Official Website](https://dev.mysql.com/downloads/mysql/)
+
+### Development Setup
 1. **Install dependencies:**
    ```bash
    npm install
    ```
 
-2. **Set up database:**
+2. **Configure Database:**
+   - Create a `.env` file in the root directory:
+   ```env
+   DATABASE_URL="mysql://username:password@localhost:3306/moviesdb"
+   ```
+   - Replace `username` and `password` with your MySQL credentials
+
+3. **Set up database:**
    ```bash
    npx prisma generate
    npx prisma migrate dev --name init
    ```
 
-3. **Start development server:**
+4. **Start development server:**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser:**
-   Navigate to `http://localhost:9001`
+5. **Open your browser:**
+   Navigate to `http://localhost:9001` or `http://localhost:3000`
 
 ### Production Deployment
 
@@ -46,20 +76,23 @@ A beautiful and modern movie database application with a sleek glassmorphism UI 
    npm install --production
    ```
 
-2. **Set up database:**
+2. **Set up environment variables:**
+   Create a `.env` file with:
+   ```env
+   DATABASE_URL="mysql://username:password@localhost:3306/moviesdb"
+   PORT=9001
+   NODE_ENV=production
+   ```
+
+3. **Set up database:**
    ```bash
    npm run setup
    ```
 
-3. **Start production server:**
+4. **Start production server:**
    ```bash
    npm start
    ```
-
-4. **Environment Variables:**
-   - Copy `.env.example` to `.env` and adjust values
-   - `PORT`: Server port (default: 9001)
-   - `NODE_ENV`: Set to `production`
 
 ## 📖 Usage
 
@@ -73,15 +106,58 @@ A beautiful and modern movie database application with a sleek glassmorphism UI 
 - `GET /api/movies?search=term` - Search movies
 - `POST /api/movies` - Add a new movie
 
+## 📁 Project Structure
+
+```
+movies-app/
+├── src/
+│   ├── server/
+│   │   ├── index.js           # Main server file
+│   │   ├── routes/
+│   │   │   └── movies.js      # Movie API routes
+│   │   ├── controllers/
+│   │   │   └── movieController.js # Business logic
+│   │   ├── middleware/
+│   │   │   └── security.js    # Security middleware
+│   │   └── config/
+│   │       └── database.js    # Database configuration
+│   └── client/
+│       ├── index.html         # Main HTML file
+│       ├── css/
+│       │   └── styles.css     # Application styles
+│       └── js/
+│           └── app.js         # Frontend JavaScript
+├── docs/                      # Documentation
+├── prisma/                    # Database schema and migrations
+├── .env.example              # Environment variables template
+└── package.json              # Dependencies and scripts
+```
+
 ## 🗄️ Database Schema
 
-The application uses a single `Movie` model:
-- `id` - Auto-increment primary key
-- `name` - Movie title
-- `producer` - Producer name
-- `releaseDate` - Release date
-- `createdAt` - Creation timestamp
-- `updatedAt` - Last update timestamp
+The application uses MySQL with a single `Movie` table:
+- `id` - Auto-increment primary key (INT)
+- `name` - Movie title (VARCHAR)
+- `producer` - Producer name (VARCHAR)
+- `releaseDate` - Release date (DATETIME)
+- `createdAt` - Creation timestamp (DATETIME)
+- `updatedAt` - Last update timestamp (DATETIME)
+
+### Database Management
+**Connect to MySQL:**
+```bash
+mysql -u root -p moviesdb
+```
+
+**View all movies:**
+```sql
+SELECT * FROM Movie;
+```
+
+**Count movies:**
+```sql
+SELECT COUNT(*) FROM Movie;
+```
 
 ## 🎨 Design Features
 
