@@ -2,10 +2,10 @@
   "name": "movies-app",
   "version": "1.0.0",
   "description": "A simple movie database application",
-  "main": "simple-server.js",
+  "main": "src/server/index.js",
   "scripts": {
-    "start": "node simple-server.js",
-    "dev": "nodemon simple-server.js",
+    "start": "node src/server/index.js",
+    "dev": "nodemon src/server/index.js",
     "setup": "npx prisma generate && npx prisma migrate deploy",
     "db:migrate": "npx prisma migrate dev",
     "db:generate": "npx prisma generate",
